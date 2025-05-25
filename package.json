@@ -1,0 +1,35 @@
+{
+  "name": "postlight-parser",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "clean": "node scripts/fetchClean.js --strip-html --decode-entities"
+  },
+  "dependencies": {
+    "@postlight/mercury-parser": "^2.2.1",
+    "@postlight/parser": "^2.2.3",
+    "cheerio": "^1.0.0",
+    "he": "^1.2.0",
+    "html-entities": "^2.6.0",
+    "minimist": "^1.2.8",
+    "next": "15.3.2",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "striptags": "^3.2.0"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "15.3.2",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}
