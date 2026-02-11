@@ -4,12 +4,20 @@ import { decode } from 'html-entities';
 
 export default async function handler(req, res) {
   try {
-    const { url } = req.query;
+    const { url, key } = req.query; // Added 'key' here
+
+    // 1. SECURITY CHECK: Validate the API Key
+    if (!key || key !== process.env.API_SECRET_KEY) {
+      return res.status(401).json({ error: 'Unauthorized: Invalid or missing API key' });
+    }
+
+    // 2. INPUT CHECK: Ensure a URL is provided
     if (!url) {
       return res.status(400).json({ error: 'Missing ?url= parameter' });
     }
 
     const article = await parse(url);
+    
     // first: decode every HTML entity (so “&#x3B5;” → “ε”)
     const decodedHtml = decode(article.content);
 
@@ -18,9 +26,8 @@ export default async function handler(req, res) {
     const text = $('p')
       .map((i, el) => $(el).text().trim())
       .get()
-      .filter(para => para.length)
+      .filter(para => para.length > 0)
       .join('\n\n')
-      // collapse any runs of 3+ line-breaks down to just two
       .replace(/\n{3,}/g, '\n\n');
 
     res.setHeader('Cache-Control', 's-maxage=3600, stale-while-revalidate');
